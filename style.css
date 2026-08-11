@@ -1428,6 +1428,7 @@ section {
   }
   .process-connector { display: none; }
 
+
   .form-group input,
   .form-group textarea {
     padding: 1.8rem 2rem;
@@ -1435,3 +1436,176 @@ section {
     min-height: 5.2rem;
   }
 }
+
+/* ===== DISTRITO GRÁFICO ===== */
+.distrito-section {
+  background: var(--second-bg-color);
+  border-top: 1px solid rgba(122, 186, 73, 0.07);
+  border-bottom: 1px solid rgba(122, 186, 73, 0.07);
+  overflow: hidden;
+}
+
+.distrito-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.distrito-text h2 {
+  font-size: 4.8rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  margin: 1.2rem 0 2rem;
+}
+
+.distrito-text > p {
+  font-size: 1.7rem;
+  color: var(--text-muted);
+  line-height: 1.85;
+  margin-bottom: 2.5rem;
+}
+
+.distrito-text > p strong {
+  color: var(--main-color);
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+}
+
+.distrito-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.distrito-features li {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-size: 1.55rem;
+  color: var(--text-muted);
+}
+
+.distrito-features li i {
+  color: var(--main-color);
+  font-size: 2.1rem;
+  flex-shrink: 0;
+}
+
+.distrito-actions {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.distrito-actions .btn-outline i {
+  font-size: 1.8rem;
+  vertical-align: middle;
+  margin-right: 0.3rem;
+}
+
+/* 2×2 cards grid */
+.distrito-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.distrito-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 2rem;
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.distrito-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient);
+  opacity: 0;
+  transition: opacity 0.35s;
+  z-index: 0;
+  border-radius: 2rem;
+}
+
+.distrito-card:hover {
+  border-color: var(--main-color);
+  box-shadow: 0 16px 50px rgba(122, 186, 73, 0.12);
+  transform: translateY(-6px);
+}
+
+.distrito-card i,
+.distrito-card h4,
+.distrito-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.distrito-card i {
+  font-size: 3.6rem;
+  color: var(--main-color);
+  transition: color 0.35s;
+}
+
+.distrito-card h4 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-color);
+  transition: color 0.35s;
+}
+
+.distrito-card p {
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  transition: color 0.35s;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .distrito-inner {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  .distrito-text h2 {
+    font-size: 3.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .distrito-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .distrito-text h2 {
+    font-size: 3.2rem;
+  }
+
+  .distrito-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .distrito-actions .btn,
+  .distrito-actions .btn-outline {
+    width: 100%;
+    text-align: center;
+  }
+}
+

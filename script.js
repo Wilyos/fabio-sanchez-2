@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
       navHome: 'Home',
       navAbout: 'Sobre mi',
       navServices: 'Soluciones',
+      navDistrito: 'Distrito Gráfico',
       navContact: 'Contacto',
       contactBtn: 'Guardar contacto',
       saveContact: 'Guardar contacto',
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       navHome: 'Home',
       navAbout: 'About me',
       navServices: 'Solutions',
+      navDistrito: 'Distrito Gráfico',
       navContact: 'Contact',
       contactBtn: 'Save contact',
       saveContact: 'Save contact',
@@ -106,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navbar
     const navLinks = document.querySelectorAll('.navbar a');
-    const navKeys = ['navHome', 'navAbout', 'navServices', 'navContact'];
+    const navKeys = ['navHome', 'navAbout', 'navServices', 'navDistrito', 'navContact'];
     navLinks.forEach((link, i) => { if (navKeys[i]) link.textContent = t[navKeys[i]]; });
 
     // Header buttons
@@ -308,6 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'URL:https://fabio-sanchez.netlify.app/',
       'X-SOCIALPROFILE;type=Instagram:https://www.instagram.com/sistemaslitograficossas/',
       'X-SOCIALPROFILE;type=Instagram:https://www.instagram.com/cuatrotorres/',
+      'X-SOCIALPROFILE;type=Instagram:https://www.instagram.com/distritograficoo',
       'END:VCARD'
     ].join('\n');
     const blob = new Blob([vcardData], { type: 'text/vcard' });
