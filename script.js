@@ -356,14 +356,14 @@ document.addEventListener('DOMContentLoaded', () => {
       // Construir mensaje estructurado para WhatsApp igual al de Fernando Sánchez
       let waText = '';
       if (currentLang === 'en') {
-        waText = `Hello ${ASESOR_NAME}, my name is *${name}*` + (empresa ? ` from the company *${empresa}*` : '') + ` (tel: ${phone}${email ? `, email: ${email}` : ''}).`;
+        waText = `Hello ${ASESOR_NAME}, my name is *${name}*` + (empresa ? ` from the company *${empresa}*` : '') + ` (tel: ${phone}).`;
         if (message) {
           waText += `\n\n*Message/Requirement:*\n${message}`;
         } else {
           waText += `\n\nI would like to get a quote and advice on your printing and packaging services.`;
         }
       } else {
-        waText = `Hola ${ASESOR_NAME}, mi nombre es *${name}*` + (empresa ? ` de la empresa *${empresa}*` : '') + ` (tel: ${phone}${email ? `, correo: ${email}` : ''}).`;
+        waText = `Hola ${ASESOR_NAME}, mi nombre es *${name}*` + (empresa ? ` de la empresa *${empresa}*` : '') + ` (tel: ${phone}).`;
         if (message) {
           waText += `\n\n*Mensaje/Requerimiento:*\n${mensaje}`;
         } else {
