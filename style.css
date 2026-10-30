@@ -1343,6 +1343,15 @@ section {
 
   .btn-group { flex-direction: column; width: 100%; }
   .btn-group .btn { width: 100%; text-align: center; }
+  .btn-group { gap: 1.4rem; }
+  .btn-group .btn {
+    font-size: 1.7rem;
+    padding: 1.8rem 2rem;
+    min-height: 6rem;
+  }
+
+  .mob-action.whatsapp i { font-size: 6rem; }
+  .mob-action.whatsapp span { font-size: 1.4rem; color: #25D366; }
 
   .services-container { grid-template-columns: repeat(2, 1fr); }
 
