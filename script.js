@@ -49,7 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
       formEnviar: 'Enviar mensaje',
       copyright: '&copy; 2026 Sistemas Litográficos · Todos los derechos reservados',
       badge: 'Disponible para proyectos',
-      contactDesc: '¿Listo para darle vida a tu próximo proyecto? Escríbeme y recibe una propuesta personalizada.'
+      contactDesc: '¿Listo para darle vida a tu próximo proyecto? Escríbeme y recibe una propuesta personalizada.',
+      catalogTag: 'Catálogo PDF',
+      catalogDesc: 'Conoce todas nuestras soluciones en empaques personalizados.',
+      catalogBtn: 'Descargar catálogo'
     },
     en: {
       navHome: 'Home',
@@ -98,7 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
       formEnviar: 'Send message',
       copyright: '&copy; 2026 Sistemas Litográficos · All rights reserved',
       badge: 'Available for projects',
-      contactDesc: 'Ready to bring your next project to life? Write to me and receive a personalized proposal.'
+      contactDesc: 'Ready to bring your next project to life? Write to me and receive a personalized proposal.',
+      catalogTag: 'PDF Catalog',
+      catalogDesc: 'Explore all our custom packaging solutions.',
+      catalogBtn: 'Download catalog'
     }
   };
 
@@ -137,6 +143,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // About
+    const catalogTag = document.querySelector('.catalog-info .section-tag');
+    if (catalogTag) catalogTag.textContent = t.catalogTag;
+    const catalogDesc = document.querySelector('.catalog-info p');
+    if (catalogDesc) catalogDesc.textContent = t.catalogDesc;
+    const catalogBtnText = document.querySelector('.catalog-btn span');
+    if (catalogBtnText) catalogBtnText.textContent = t.catalogBtn;
+
     const aboutTitle = document.querySelector('.about-content h2');
     if (aboutTitle) aboutTitle.innerHTML = t.aboutTitle;
     const aboutDesc = document.querySelector('.about-content > p');
