@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       contactDesc: '¿Listo para darle vida a tu próximo proyecto? Escríbeme y recibe una propuesta personalizada.',
       catalogTag: 'Catálogo PDF',
       catalogDesc: 'Conoce todas nuestras soluciones en empaques personalizados.',
-      catalogBtn: 'Descargar catálogo'
+      catalogBtn: 'Abrir catálogo'
     },
     en: {
       navHome: 'Home',
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
       contactDesc: 'Ready to bring your next project to life? Write to me and receive a personalized proposal.',
       catalogTag: 'PDF Catalog',
       catalogDesc: 'Explore all our custom packaging solutions.',
-      catalogBtn: 'Download catalog'
+      catalogBtn: 'Open catalog'
     }
   };
 
