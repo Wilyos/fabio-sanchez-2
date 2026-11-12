@@ -480,10 +480,22 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!pdfStatusEl) return;
       pdfStatusEl.classList.remove('is-hidden');
       const msg = currentLang === 'en'
-        ? 'Could not preview the PDF here.'
-        : 'No se pudo previsualizar el PDF aquí.';
-      const btnLabel = currentLang === 'en' ? 'Open / Download PDF' : 'Abrir / Descargar PDF';
-      pdfStatusEl.innerHTML = `<p>${msg}</p><a href="${pdfUrl}" target="_blank" rel="noopener" class="btn"><i class="bx bx-download"></i><span class="no-gradient">${btnLabel}</span></a>`;
+        ? 'Could not preview the PDF directly in this browser.'
+        : 'No se pudo previsualizar el PDF directamente en este navegador.';
+      const viewDriveLabel = currentLang === 'en' ? 'Read online (Drive)' : 'Leer en línea (Drive)';
+      const btnLabel = currentLang === 'en' ? 'Download PDF' : 'Descargar PDF';
+      const driveUrl = 'https://drive.google.com/file/d/1VzJmRWlubgUbeZz_5ExlDUFBSSzygeLO/view?usp=sharing';
+      pdfStatusEl.innerHTML = `
+        <p style="margin-bottom: 1.6rem;">${msg}</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="${driveUrl}" target="_blank" rel="noopener" class="btn">
+            <i class="bx bx-show"></i><span class="no-gradient">${viewDriveLabel}</span>
+          </a>
+          <a href="${pdfUrl}" target="_blank" rel="noopener" class="btn btn-outline">
+            <i class="bx bx-download"></i><span class="no-gradient">${btnLabel}</span>
+          </a>
+        </div>
+      `;
     };
 
     if (typeof window.pdfjsLib === 'undefined') {
@@ -493,8 +505,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      const workerUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      try {
+        const workerBlob = new Blob([`importScripts('${workerUrl}')`], { type: 'application/javascript' });
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(workerBlob);
+      } catch (_) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+      }
 
       if (pdfStatusEl) {
         pdfStatusEl.classList.remove('is-hidden');
