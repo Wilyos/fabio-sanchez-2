@@ -52,7 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
       contactDesc: '¿Listo para darle vida a tu próximo proyecto? Escríbeme y recibe una propuesta personalizada.',
       catalogTag: 'Catálogo PDF',
       catalogDesc: 'Conoce todas nuestras soluciones en empaques personalizados.',
-      catalogBtn: 'Abrir catálogo'
+      catalogBtn: 'Abrir catálogo',
+      pdfModalTitle: 'Portafolio de Empaques',
+      pdfDownload: 'Descargar'
     },
     en: {
       navHome: 'Home',
@@ -104,7 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
       contactDesc: 'Ready to bring your next project to life? Write to me and receive a personalized proposal.',
       catalogTag: 'PDF Catalog',
       catalogDesc: 'Explore all our custom packaging solutions.',
-      catalogBtn: 'Open catalog'
+      catalogBtn: 'Open catalog',
+      pdfModalTitle: 'Packaging Portfolio',
+      pdfDownload: 'Download'
     }
   };
 
@@ -149,6 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (catalogDesc) catalogDesc.textContent = t.catalogDesc;
     const catalogBtnText = document.querySelector('.catalog-btn span');
     if (catalogBtnText) catalogBtnText.textContent = t.catalogBtn;
+    const pdfTitle = document.getElementById('pdf-modal-title');
+    if (pdfTitle) pdfTitle.textContent = t.pdfModalTitle;
+    const pdfDownloadText = document.querySelector('#pdf-download-link span');
+    if (pdfDownloadText) pdfDownloadText.textContent = t.pdfDownload;
 
     const aboutTitle = document.querySelector('.about-content h2');
     if (aboutTitle) aboutTitle.innerHTML = t.aboutTitle;
@@ -454,5 +462,108 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
+
+  // ===== VISOR DE CATÁLOGO PDF (PDF.js) =====
+  const pdfModal = document.getElementById('pdf-modal');
+  const pdfPagesEl = document.getElementById('pdf-pages');
+  const pdfStatusEl = document.getElementById('pdf-status');
+  const pdfPageCountEl = document.getElementById('pdf-page-count');
+  const pdfUrl = 'assets/doc/catalogo-de-empaques-sistemas-litograficos.pdf';
+  let pdfLoaded = false;
+  let pdfLoading = false;
+
+  async function renderPdfCatalog() {
+    if (pdfLoaded || pdfLoading) return;
+    pdfLoading = true;
+
+    const showFallback = () => {
+      if (!pdfStatusEl) return;
+      pdfStatusEl.classList.remove('is-hidden');
+      const msg = currentLang === 'en'
+        ? 'Could not preview the PDF here.'
+        : 'No se pudo previsualizar el PDF aquí.';
+      const btnLabel = currentLang === 'en' ? 'Open / Download PDF' : 'Abrir / Descargar PDF';
+      pdfStatusEl.innerHTML = `<p>${msg}</p><a href="${pdfUrl}" target="_blank" rel="noopener" class="btn"><i class="bx bx-download"></i><span class="no-gradient">${btnLabel}</span></a>`;
+    };
+
+    if (typeof window.pdfjsLib === 'undefined') {
+      pdfLoading = false;
+      showFallback();
+      return;
+    }
+
+    try {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+      if (pdfStatusEl) {
+        pdfStatusEl.classList.remove('is-hidden');
+        pdfStatusEl.textContent = currentLang === 'en' ? 'Loading catalog...' : 'Cargando catálogo...';
+      }
+
+      const pdf = await window.pdfjsLib.getDocument(pdfUrl).promise;
+      if (pdfPageCountEl) {
+        pdfPageCountEl.textContent = `(${pdf.numPages} ${currentLang === 'en' ? 'pages' : 'págs.'})`;
+      }
+      if (pdfStatusEl) pdfStatusEl.classList.add('is-hidden');
+
+      const containerWidth = Math.min(860, (pdfPagesEl?.clientWidth || window.innerWidth) - 16);
+      const outputScale = Math.min(window.devicePixelRatio || 1, 2);
+
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const baseViewport = page.getViewport({ scale: 1 });
+        const scale = Math.max(0.5, containerWidth / baseViewport.width);
+        const viewport = page.getViewport({ scale });
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = Math.floor(viewport.width * outputScale);
+        canvas.height = Math.floor(viewport.height * outputScale);
+
+        const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null;
+        pdfPagesEl.appendChild(canvas);
+
+        await page.render({
+          canvasContext: ctx,
+          transform,
+          viewport
+        }).promise;
+      }
+
+      pdfLoaded = true;
+    } catch (err) {
+      console.warn('PDF.js render error:', err);
+      showFallback();
+    } finally {
+      pdfLoading = false;
+    }
+  }
+
+  function openPdfModal() {
+    if (!pdfModal) return;
+    pdfModal.classList.add('is-open');
+    pdfModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    renderPdfCatalog();
+  }
+
+  function closePdfModal() {
+    if (!pdfModal) return;
+    pdfModal.classList.remove('is-open');
+    pdfModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.js-open-catalog').forEach(btn => {
+    btn.addEventListener('click', openPdfModal);
+  });
+  document.getElementById('pdf-modal-close')?.addEventListener('click', closePdfModal);
+  document.getElementById('pdf-modal-backdrop')?.addEventListener('click', closePdfModal);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && pdfModal?.classList.contains('is-open')) {
+      closePdfModal();
+    }
+  });
 
 });
